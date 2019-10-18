@@ -33,7 +33,7 @@ license:
 	@scripts/check_license.sh
 
 .PHONY: bdd-test
-bdd-test: clean checks populate-fixtures build-cc
+bdd-test: clean populate-fixtures docker-thirdparty build-cc
 	@scripts/check_integration.sh
 
 .PHONY: build-cc
@@ -42,6 +42,9 @@ build-cc: clean
 	@mkdir -p ./.build
 	@scripts/copycc.sh
 
+docker-thirdparty:
+	docker pull couchdb:2.2.0
+	docker pull hyperledger/fabric-orderer:$(ARCH)-2.0.0-alpha
 
 .PHONY: crypto-gen
 crypto-gen:
