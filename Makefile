@@ -7,8 +7,10 @@
 DOCKER_CMD ?= docker
 
 # Local variables used by makefile
-PROJECT_NAME   = aries-framework-go-ext
-ARCH           = $(shell go env GOARCH)
+PROJECT_NAME       = aries-framework-go-ext
+ARCH               = $(shell go env GOARCH)
+CONTAINER_IDS      = $(shell docker ps -a -q)
+DEV_IMAGES         = $(shell docker images dev-* -q)
 
 # Fabric tools docker image (overridable)
 FABRIC_TOOLS_IMAGE   ?= hyperledger/fabric-tools
@@ -92,3 +94,13 @@ clean:
 	rm -Rf ./test/bdd/fixtures/fabric/channel
 	rm -Rf ./test/bdd/fixtures/fabric/crypto-config
 	rm -Rf ./test/bdd/*.log
+
+clean-images:
+	@echo "Stopping all containers, pruning containers and images, deleting dev images"
+ifneq ($(strip $(CONTAINER_IDS)),)
+	@docker stop $(CONTAINER_IDS)
+endif
+	@docker system prune -f
+ifneq ($(strip $(DEV_IMAGES)),)
+	@docker rmi $(DEV_IMAGES) -f
+endif

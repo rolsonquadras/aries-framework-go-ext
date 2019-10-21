@@ -10,7 +10,7 @@ services:
     container_name: orderer.example.com
     image: ${FABRIC_NS}/${FABRIC_ORDERER_FIXTURE_IMAGE}:${ARCH}-${FABRIC_ORDERER_FIXTURE_TAG}
     environment:
-      - FABRIC_LOGGING_SPEC=warn
+      - FABRIC_LOGGING_SPEC=info
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/twoorgs.genesis.block
@@ -62,7 +62,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fixtures_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_default
       # CouchDB Settings
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_TRANSIENTDATA_CACHESIZE=1000
@@ -117,7 +117,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fixtures_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_default
       # CouchDB Settings
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_TRANSIENTDATA_CACHESIZE=1000
@@ -172,7 +172,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fixtures_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_default
       # CouchDB Settings
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_TRANSIENTDATA_CACHESIZE=1000
@@ -227,7 +227,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fixtures_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_default
       # CouchDB Settings
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_TRANSIENTDATA_CACHESIZE=1000
