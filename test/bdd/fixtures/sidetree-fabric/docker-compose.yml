@@ -1,0 +1,29 @@
+#
+# Copyright SecureKey Technologies Inc. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: '2'
+
+services:
+  sidetree-fabric:
+    container_name: sidetree-fabric
+    networks:
+      - fabric_default
+    image: ${TRUSTBLOCK_NS}/${SIDETREE_FABRIC_FIXTURE_IMAGE}:${ARCH}-${SIDETREE_FABRIC_FIXTURE_TAG}
+    environment:
+      - SIDETREE_NODE_PROTOCOL_FILE=/etc/sidetree-fabric/protocol.json
+      - SIDETREE_NODE_CONFIG_FILE=/etc/sidetree-fabric/config.yaml
+      - SIDETREE_NODE_TLS_CERTIFICATE=/etc/crypto-config/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.crt
+      - SIDETREE_NODE_TLS_KEY=/etc/crypto-config/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.key
+      - SIDETREE_NODE_HOST=0.0.0.0
+      - SIDETREE_NODE_PORT=48326
+    ports:
+      - 48326:48326
+    volumes:
+      - ./config/client/protocol.json:/etc/sidetree-fabric/protocol.json
+      - ./config/client/config.yaml:/etc/sidetree-fabric/config.yaml
+      - ../fabric/crypto-config/:/etc/crypto-config
+networks:
+  fabric_default:
+    external: true

@@ -28,4 +28,6 @@ coverage.txt
 .build
 test/bdd/fixtures/fabric/crypto-config/
 test/bdd/fixtures/fabric/channel/
+test/bdd/db
+test/bdd/aries_feature
 *.log

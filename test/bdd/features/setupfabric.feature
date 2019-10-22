@@ -4,11 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-@all
-@didresolver
+@setup_fabric
 Feature:
-  @resolve_valid_did_doc
-  Scenario: create valid did doc
+  Scenario: setup fabric
     Given DCAS collection config "dcas-mychannel" is defined for collection "dcas" as policy="OR('Org1MSP.member','Org2MSP.member')", requiredPeerCount=1, maxPeerCount=2, and timeToLive=60m
     Given DCAS collection config "docs-mychannel" is defined for collection "docs" as policy="OR('Org1MSP.member','Org2MSP.member')", requiredPeerCount=1, maxPeerCount=2, and timeToLive=60m
     Given off-ledger collection config "meta_data_coll" is defined for collection "meta_data" as policy="OR('Org1MSP.member','Org2MSP.member')", requiredPeerCount=1, maxPeerCount=1, and timeToLive=60m

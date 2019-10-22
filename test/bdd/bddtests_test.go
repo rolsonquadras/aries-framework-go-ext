@@ -16,13 +16,14 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/godog"
+	ariesbdd "github.com/hyperledger/aries-framework-go/test/bdd"
 	"github.com/hyperledger/aries-framework-go/test/bdd/dockerutil"
 	"github.com/spf13/viper"
 	"github.com/trustbloc/fabric-peer-test-common/bddtests"
 )
 
 var composition []*dockerutil.Composition
-var composeFiles = []string{"./fixtures/fabric"}
+var composeFiles = []string{"./fixtures/fabric", "./fixtures/sidetree-fabric"}
 
 func TestMain(m *testing.M) {
 	projectPath, err := filepath.Abs("../..")
@@ -32,8 +33,7 @@ func TestMain(m *testing.M) {
 	if err := os.Setenv("PROJECT_PATH", projectPath); err != nil {
 		panic(err.Error())
 	}
-	// default is to run all tests with tag @all
-	tags := "all"
+	tags := "setup_fabric,didresolve,didexchange_public_did"
 	flag.Parse()
 	cmdTags := flag.CommandLine.Lookup("test.run")
 	if cmdTags != nil && cmdTags.Value != nil && cmdTags.Value.String() != "" {
@@ -56,7 +56,7 @@ func TestMain(m *testing.M) {
 					composition = append(composition, newComposition)
 				}
 				fmt.Println("docker-compose up ... waiting for peer to start ...")
-				testSleep := 10
+				testSleep := 25
 				if os.Getenv("TEST_SLEEP") != "" {
 					testSleep, _ = strconv.Atoi(os.Getenv("TEST_SLEEP"))
 				}
@@ -81,7 +81,7 @@ func TestMain(m *testing.M) {
 	}, godog.Options{
 		Tags:          tags,
 		Format:        "progress",
-		Paths:         []string{"features"},
+		Paths:         []string{"features", "aries_feature"},
 		Randomize:     time.Now().UTC().UnixNano(), // randomize scenario execution order
 		Strict:        true,
 		StopOnFailure: true,
@@ -105,18 +105,22 @@ func FeatureContext(s *godog.Suite) {
 	if err != nil {
 		panic(fmt.Sprintf("Error returned from NewBDDContext: %s", err))
 	}
-
-	composeProjectName := strings.Replace(generateUUID(), "-", "", -1)
-	composition, err := bddtests.NewDockerCompose(composeProjectName, "docker-compose.yml", "./fixtures")
-	if err != nil {
-		panic(fmt.Sprintf("Error creating a Docker-Compose client: %s", err))
-	}
-	fabricTestCtx.SetComposition(composition)
-
-	// Context is shared between tests - for now
-	// Note: Each test after NewcommonSteps. should add unique steps only
+	// Context is shared between tests
 	bddtests.NewCommonSteps(fabricTestCtx).RegisterSteps(s)
 	NewOffLedgerSteps(fabricTestCtx).RegisterSteps(s)
+
+	ariesTestCtx, err := ariesbdd.NewContext()
+	if err != nil {
+		panic(fmt.Sprintf("Error returned from NewContext: %s", err))
+	}
+	// set  args
+	ariesTestCtx.Args[ariesbdd.SideTreeURL] = "http://localhost:48326/.sidetree/document"
+	ariesTestCtx.Args[ariesbdd.DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
+
+	// Context is shared between tests
+	ariesbdd.NewAgentSteps(ariesTestCtx).RegisterSteps(s)
+	ariesbdd.NewDIDExchangeSteps(ariesTestCtx).RegisterSteps(s)
+	ariesbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
 
 }
 

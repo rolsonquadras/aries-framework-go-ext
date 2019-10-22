@@ -26,3 +26,11 @@ jobs:
       - checkout: self
       - script: make checks
         displayName: Run checks
+
+schedules:
+  - cron: "0 0 * * *"
+    displayName: Daily midnight build
+    branches:
+      include:
+        - master
+    always: true

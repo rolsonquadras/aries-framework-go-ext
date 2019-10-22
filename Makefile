@@ -40,8 +40,12 @@ license:
 	@scripts/check_license.sh
 
 .PHONY: bdd-test
-bdd-test: clean populate-fixtures docker-thirdparty bdd-test-fabric-peer-docker build-cc
+bdd-test: clean populate-fixtures docker-thirdparty bdd-test-fabric-peer-docker build-cc copy-aries-feature-file
 	@scripts/check_integration.sh
+
+.PHONY: copy-aries-feature-file
+copy-aries-feature-file: clean
+	@scripts/copy_aries_feature_file.sh
 
 .PHONY: build-cc
 build-cc: clean
@@ -93,6 +97,7 @@ clean:
 	rm -Rf ./.build
 	rm -Rf ./test/bdd/fixtures/fabric/channel
 	rm -Rf ./test/bdd/fixtures/fabric/crypto-config
+	rm -Rf ./test/bdd/aries_feature
 	rm -Rf ./test/bdd/*.log
 
 clean-images:
