@@ -27,6 +27,33 @@ jobs:
       - script: make checks
         displayName: Run checks
 
+  - job: Publish
+    dependsOn:
+      - Checks
+      - BDDTest
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+    pool:
+      vmImage: ubuntu-16.04
+    timeoutInMinutes: 30
+    steps:
+      - template: azp-dependencies.yml
+      - checkout: self
+      - bash: |
+          function logout {
+            docker logout
+          }
+          trap logout EXIT
+          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+          source scripts/build_aries_agent_image.sh
+          docker tag aries-framework-go/agent:latest  trustbloc/aries-agent:$AGENT_IMAGE_TAG
+          docker push trustbloc/aries-agent:$AGENT_IMAGE_TAG
+        env:
+          DOCKER_USER: $(DOCKER_USER)
+          DOCKER_PASSWORD: $(DOCKER_PASSWORD)
+          BASE_VERSION: $(BASE_VERSION)
+          IS_RELEASE: $(IS_RELEASE)
+          ARIES_REVISION: $(ARIES_REVISION)
+
 schedules:
   - cron: "0 0 * * *"
     displayName: Daily midnight build

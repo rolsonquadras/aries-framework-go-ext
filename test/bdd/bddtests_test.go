@@ -118,7 +118,7 @@ func FeatureContext(s *godog.Suite) {
 	ariesTestCtx.Args[ariesbdd.DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
 
 	// Context is shared between tests
-	ariesbdd.NewAgentSteps(ariesTestCtx).RegisterSteps(s)
+	ariesbdd.NewAgentSDKSteps(ariesTestCtx).RegisterSteps(s)
 	ariesbdd.NewDIDExchangeSteps(ariesTestCtx).RegisterSteps(s)
 	ariesbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
 
