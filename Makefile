@@ -23,7 +23,9 @@ FABRIC_PEER_EXT_VERSION ?= 0.1.0-snapshot-1ab7e44
 FABRIC_PEER_EXT_TAG     ?= $(ARCH)-$(FABRIC_PEER_EXT_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
-export SIDETREE_FABRIC_VERSION = 784de6e9f4bd68a1a5f10538fb69d53b26076ed4
+export SIDETREE_FABRIC_VERSION = 0c3a2825b8e04f624c0277c473e643fbd7772e7f
+export ARIES_FRAMEWORK_VERSION = 35cb5d5bc23375f460af56272c5fea044e8589cd
+
 
 .PHONY: all
 all: checks bdd-test

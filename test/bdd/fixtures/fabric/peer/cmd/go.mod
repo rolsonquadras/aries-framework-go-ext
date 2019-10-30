@@ -3,7 +3,7 @@ module github.com/trustbloc/aries-framework-go-ext/test/bdd/fixtures/fabric/peer
 require (
 	github.com/hyperledger/fabric v2.0.0-alpha+incompatible
 	github.com/spf13/viper v1.3.2
-	github.com/trustbloc/sidetree-fabric v0.0.0-20191018181606-784de6e9f4bd
+	github.com/trustbloc/sidetree-fabric v0.0.0-20191030175842-0c3a2825b8e0
 )
 
 replace github.com/hyperledger/fabric => github.com/trustbloc/fabric-mod v0.0.0-20190821180934-5941d21b98c6

@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -43,7 +42,6 @@ func TestMain(m *testing.M) {
 	initBDDConfig()
 	status := godog.RunWithOptions("godogs", func(s *godog.Suite) {
 		s.BeforeSuite(func() {
-
 			if os.Getenv("DISABLE_COMPOSITION") != "true" {
 				// Need a unique name, but docker does not allow '-' in names
 				composeProjectName := strings.Replace(generateUUID(), "-", "", -1)
@@ -55,13 +53,6 @@ func TestMain(m *testing.M) {
 					}
 					composition = append(composition, newComposition)
 				}
-				fmt.Println("docker-compose up ... waiting for peer to start ...")
-				testSleep := 25
-				if os.Getenv("TEST_SLEEP") != "" {
-					testSleep, _ = strconv.Atoi(os.Getenv("TEST_SLEEP"))
-				}
-				fmt.Printf("*** testSleep=%d", testSleep)
-				time.Sleep(time.Second * time.Duration(testSleep))
 			}
 
 		})
@@ -114,7 +105,7 @@ func FeatureContext(s *godog.Suite) {
 		panic(fmt.Sprintf("Error returned from NewContext: %s", err))
 	}
 	// set  args
-	ariesTestCtx.Args[ariesbdd.SideTreeURL] = "http://localhost:48326/.sidetree/document"
+	ariesTestCtx.Args[ariesbdd.SideTreeURL] = "http://localhost:48326/document"
 	ariesTestCtx.Args[ariesbdd.DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
 
 	// Context is shared between tests
