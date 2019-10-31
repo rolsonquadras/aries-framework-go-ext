@@ -34,9 +34,15 @@ func TestMain(m *testing.M) {
 	}
 	tags := "setup_fabric,didresolve,didexchange_public_did"
 	flag.Parse()
-	cmdTags := flag.CommandLine.Lookup("test.run")
-	if cmdTags != nil && cmdTags.Value != nil && cmdTags.Value.String() != "" {
-		tags = cmdTags.Value.String()
+
+	format := "progress"
+ 	if getCmdArg("test.v") == "true" {
+ 		format = "pretty"
+	}
+
+	runArg := getCmdArg("test.run")
+	if runArg != "" {
+		tags = runArg
 	}
 
 	initBDDConfig()
@@ -71,7 +77,7 @@ func TestMain(m *testing.M) {
 		FeatureContext(s)
 	}, godog.Options{
 		Tags:          tags,
-		Format:        "progress",
+		Format:        format,
 		Paths:         []string{"features", "aries_feature"},
 		Randomize:     time.Now().UTC().UnixNano(), // randomize scenario execution order
 		Strict:        true,
@@ -82,6 +88,14 @@ func TestMain(m *testing.M) {
 		status = st
 	}
 	os.Exit(status)
+}
+
+func getCmdArg(argName string) string {
+	cmdTags := flag.CommandLine.Lookup(argName)
+	if cmdTags != nil && cmdTags.Value != nil && cmdTags.Value.String() != "" {
+		return cmdTags.Value.String()
+	}
+	return ""
 }
 
 func FeatureContext(s *godog.Suite) {
