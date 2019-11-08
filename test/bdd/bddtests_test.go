@@ -15,10 +15,20 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/godog"
+
+
+	didexchangebdd "github.com/hyperledger/aries-framework-go/test/bdd/pkg/didexchange"
+	didresolverbdd "github.com/hyperledger/aries-framework-go/test/bdd/pkg/didresolver"
+	ariesbddctx "github.com/hyperledger/aries-framework-go/test/bdd/pkg/context"
 	ariesbdd "github.com/hyperledger/aries-framework-go/test/bdd"
 	"github.com/hyperledger/aries-framework-go/test/bdd/dockerutil"
 	"github.com/spf13/viper"
 	"github.com/trustbloc/fabric-peer-test-common/bddtests"
+)
+
+const (
+	SideTreeURL = "${SIDETREE_URL}"
+	DIDDocPath  = "${DID_DOC_PATH}"
 )
 
 var composition []*dockerutil.Composition
@@ -114,18 +124,18 @@ func FeatureContext(s *godog.Suite) {
 	bddtests.NewCommonSteps(fabricTestCtx).RegisterSteps(s)
 	NewOffLedgerSteps(fabricTestCtx).RegisterSteps(s)
 
-	ariesTestCtx, err := ariesbdd.NewContext()
+	ariesTestCtx, err := ariesbddctx.NewBDDContext()
 	if err != nil {
 		panic(fmt.Sprintf("Error returned from NewContext: %s", err))
 	}
 	// set  args
-	ariesTestCtx.Args[ariesbdd.SideTreeURL] = "http://localhost:48326/document"
-	ariesTestCtx.Args[ariesbdd.DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
+	ariesTestCtx.Args[SideTreeURL] = "http://localhost:48326/document"
+	ariesTestCtx.Args[DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
 
 	// Context is shared between tests
 	ariesbdd.NewAgentSDKSteps(ariesTestCtx).RegisterSteps(s)
-	ariesbdd.NewDIDExchangeSteps(ariesTestCtx).RegisterSteps(s)
-	ariesbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
+	didexchangebdd.NewDIDExchangeSDKSteps(ariesTestCtx).RegisterSteps(s)
+	didresolverbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
 
 }
 
