@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/godog"
+	"github.com/spf13/viper"
 
 
 	didexchangebdd "github.com/hyperledger/aries-framework-go/test/bdd/pkg/didexchange"
@@ -22,7 +23,6 @@ import (
 	ariesbddctx "github.com/hyperledger/aries-framework-go/test/bdd/pkg/context"
 	ariesbdd "github.com/hyperledger/aries-framework-go/test/bdd"
 	"github.com/hyperledger/aries-framework-go/test/bdd/dockerutil"
-	"github.com/spf13/viper"
 	"github.com/trustbloc/fabric-peer-test-common/bddtests"
 )
 
