@@ -17,12 +17,11 @@ import (
 	"github.com/DATA-DOG/godog"
 	"github.com/spf13/viper"
 
-
+	"github.com/hyperledger/aries-framework-go/test/bdd/agent"
+	"github.com/hyperledger/aries-framework-go/test/bdd/dockerutil"
+	ariesbddctx "github.com/hyperledger/aries-framework-go/test/bdd/pkg/context"
 	didexchangebdd "github.com/hyperledger/aries-framework-go/test/bdd/pkg/didexchange"
 	didresolverbdd "github.com/hyperledger/aries-framework-go/test/bdd/pkg/didresolver"
-	ariesbddctx "github.com/hyperledger/aries-framework-go/test/bdd/pkg/context"
-	ariesbdd "github.com/hyperledger/aries-framework-go/test/bdd"
-	"github.com/hyperledger/aries-framework-go/test/bdd/dockerutil"
 	"github.com/trustbloc/fabric-peer-test-common/bddtests"
 )
 
@@ -42,12 +41,13 @@ func TestMain(m *testing.M) {
 	if err := os.Setenv("PROJECT_PATH", projectPath); err != nil {
 		panic(err.Error())
 	}
-	tags := "setup_fabric,didresolve,didexchange_public_did"
+	tags := "setup_fabric,didresolver,didexchange_sdk_public_dids_invitation,didexchange_sdk_mixed_public_and_peer_dids," +
+		"didexchange_sdk_implicit_invitation_peer_did,didexchange_sdk_implicit_invitation_public_did"
 	flag.Parse()
 
 	format := "progress"
- 	if getCmdArg("test.v") == "true" {
- 		format = "pretty"
+	if getCmdArg("test.v") == "true" {
+		format = "pretty"
 	}
 
 	runArg := getCmdArg("test.run")
@@ -133,7 +133,8 @@ func FeatureContext(s *godog.Suite) {
 	ariesTestCtx.Args[DIDDocPath] = "fixtures/sidetree-fabric/config/client/didDocument.json"
 
 	// Context is shared between tests
-	ariesbdd.NewAgentSDKSteps(ariesTestCtx).RegisterSteps(s)
+	agent.NewSDKSteps(ariesTestCtx).RegisterSteps(s)
+	agent.NewControllerSteps(ariesTestCtx).RegisterSteps(s)
 	didexchangebdd.NewDIDExchangeSDKSteps(ariesTestCtx).RegisterSteps(s)
 	didresolverbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
 
