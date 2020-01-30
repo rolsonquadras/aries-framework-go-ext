@@ -31,7 +31,7 @@ const (
 )
 
 var composition []*dockerutil.Composition
-var composeFiles = []string{"./fixtures/fabric", "./fixtures/sidetree-fabric"}
+var composeFiles = []string{"./fixtures/fabric"}
 
 func TestMain(m *testing.M) {
 	projectPath, err := filepath.Abs("../..")
@@ -123,6 +123,7 @@ func FeatureContext(s *godog.Suite) {
 	// Context is shared between tests
 	bddtests.NewCommonSteps(fabricTestCtx).RegisterSteps(s)
 	NewOffLedgerSteps(fabricTestCtx).RegisterSteps(s)
+	NewFabricCLISteps(fabricTestCtx).RegisterSteps(s)
 
 	ariesTestCtx, err := ariesbddctx.NewBDDContext()
 	if err != nil {
