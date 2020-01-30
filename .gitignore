@@ -31,3 +31,4 @@ test/bdd/fixtures/fabric/channel/
 test/bdd/db
 test/bdd/aries_feature
 *.log
+/test/bdd/.fabriccli/

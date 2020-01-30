@@ -19,12 +19,13 @@ FABRIC_TOOLS_TAG     ?= $(ARCH)-$(FABRIC_TOOLS_VERSION)
 
 # Fabric peer ext docker image (overridable)
 FABRIC_PEER_EXT_IMAGE   ?= trustbloc/fabric-peer
-FABRIC_PEER_EXT_VERSION ?= 0.1.0-snapshot-1ab7e44
+FABRIC_PEER_EXT_VERSION ?= 0.1.1
 FABRIC_PEER_EXT_TAG     ?= $(ARCH)-$(FABRIC_PEER_EXT_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
-export SIDETREE_FABRIC_VERSION = 0c3a2825b8e04f624c0277c473e643fbd7772e7f
+export SIDETREE_FABRIC_VERSION = v0.1.1
 export ARIES_FRAMEWORK_VERSION = v0.1.1
+export FABRIC_CLI_EXT_VERSION ?= v0.1.1
 
 
 .PHONY: all
@@ -42,7 +43,7 @@ license:
 	@scripts/check_license.sh
 
 .PHONY: bdd-test
-bdd-test: clean populate-fixtures docker-thirdparty bdd-test-fabric-peer-docker build-cc copy-aries-feature-file
+bdd-test: clean populate-fixtures docker-thirdparty bdd-test-fabric-peer-docker build-cc copy-aries-feature-file fabric-cli
 	@scripts/check_integration.sh
 
 .PHONY: copy-aries-feature-file
@@ -94,11 +95,16 @@ channel-config-gen:
 populate-fixtures: clean
 	@scripts/populate-fixtures.sh -f
 
+fabric-cli:
+	@scripts/build_fabric_cli.sh
+
 .PHONY: clean
 clean:
 	rm -Rf ./.build
 	rm -Rf ./test/bdd/fixtures/fabric/channel
 	rm -Rf ./test/bdd/fixtures/fabric/crypto-config
+	rm -Rf ./test/bdd/.fabriccli
+	rm -Rf ./test/bdd/db
 	rm -Rf ./test/bdd/aries_feature
 	rm -Rf ./test/bdd/*.log
 

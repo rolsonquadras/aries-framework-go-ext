@@ -56,9 +56,8 @@ services:
       # metrics config
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:8080
-      - CORE_LEDGER_ROLES=endorser,committer,validator,sidetree,observer
-      # channels to observe for Sidetree transaction
-      - CORE_LEDGER_SIDETREE_OBSERVER_CHANNELS=mychannel
+      - CORE_LEDGER_ROLES=endorser,committer,sidetree-resolver,sidetree-batch-writer
+      - CORE_SIDETREE_PORT=48326
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
@@ -74,6 +73,7 @@ services:
     tty: true
     ports:
       - 7051:7051
+      - 48326:48326
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/msp/peer
@@ -111,9 +111,8 @@ services:
       # metrics config
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:8080
-      - CORE_LEDGER_ROLES=endorser,committer,validator,sidetree
-      # channels to observe for Sidetree transaction
-      - CORE_LEDGER_SIDETREE_OBSERVER_CHANNELS=mychannel
+      - CORE_LEDGER_ROLES=endorser,committer,sidetree-resolver,sidetree-batch-writer,sidetree-observer
+      - CORE_SIDETREE_PORT=48326
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
@@ -129,6 +128,7 @@ services:
     tty: true
     ports:
       - 7151:7051
+      - 48426:48326
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp:/etc/hyperledger/msp/peer
@@ -166,9 +166,8 @@ services:
       # metrics config
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:8080
-      - CORE_LEDGER_ROLES=endorser,committer,validator,sidetree
-      # channels to observe for Sidetree transaction
-      - CORE_LEDGER_SIDETREE_OBSERVER_CHANNELS=mychannel
+      - CORE_LEDGER_ROLES=endorser,committer,sidetree-resolver,sidetree-batch-writer
+      - CORE_SIDETREE_PORT=48326
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
@@ -184,6 +183,7 @@ services:
     tty: true
     ports:
       - 8051:7051
+      - 48526:48326
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/msp/peer
@@ -221,9 +221,8 @@ services:
       # metrics config
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:8080
-      - CORE_LEDGER_ROLES=endorser,committer,validator,sidetree
-      # channels to observe for Sidetree transaction
-      - CORE_LEDGER_SIDETREE_OBSERVER_CHANNELS=mychannel
+      - CORE_LEDGER_ROLES=endorser,committer,sidetree-resolver,sidetree-batch-writer
+      - CORE_SIDETREE_PORT=48326
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
@@ -239,6 +238,7 @@ services:
     tty: true
     ports:
       - 8151:7051
+      - 48626:48326
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp:/etc/hyperledger/msp/peer
