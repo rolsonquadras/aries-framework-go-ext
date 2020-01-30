@@ -137,7 +137,6 @@ func FeatureContext(s *godog.Suite) {
 	agent.NewControllerSteps(ariesTestCtx).RegisterSteps(s)
 	didexchangebdd.NewDIDExchangeSDKSteps(ariesTestCtx).RegisterSteps(s)
 	didresolverbdd.NewDIDResolverSteps(ariesTestCtx).RegisterSteps(s)
-
 }
 
 func initBDDConfig() {

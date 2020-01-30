@@ -7,3 +7,13 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/trustbloc/aries-framework-go-ext)](https://goreportcard.com/report/github.com/trustbloc/aries-framework-go-ext)
 
 # aries-framework-go-ext
+The Aries Framework Go Ext project adds [TrustBloc](https://github.com/trustbloc) specific components to [Hyperledger Aries Framework Go](https://github.com/hyperledger/aries-framework-go) like resolvers, protocols, key manager. 
+
+Currently, the [BDD tests](test/bdd) demonstrate the use of [Sidetree](https://github.com/decentralized-identity/sidetree/blob/master/docs/protocol.md) (backed 
+by customized [Hyperledger Fabric](https://github.com/trustbloc/fabric-mod)) as the Resolver component inside Hyperledger Aries Framework Go.
+
+## Contributing
+Thank you for your interest in contributing. Please see our [community contribution guidelines](https://github.com/trustbloc/community/blob/master/CONTRIBUTING.md) for more information.
+
+## License
+Apache License, Version 2.0 (Apache-2.0). See the [LICENSE](LICENSE) file.
