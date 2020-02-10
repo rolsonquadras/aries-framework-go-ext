@@ -23,9 +23,8 @@ FABRIC_PEER_EXT_VERSION ?= 0.1.1
 FABRIC_PEER_EXT_TAG     ?= $(ARCH)-$(FABRIC_PEER_EXT_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
-export SIDETREE_FABRIC_VERSION = v0.1.1
 export ARIES_FRAMEWORK_VERSION = v0.1.1
-export FABRIC_CLI_EXT_VERSION ?= v0.1.1
+export FABRIC_CLI_EXT_VERSION ?= 3fd66894726c1afcd904413dcfa3b4d586ea6c92
 
 
 .PHONY: all
@@ -43,37 +42,17 @@ license:
 	@scripts/check_license.sh
 
 .PHONY: bdd-test
-bdd-test: clean populate-fixtures docker-thirdparty bdd-test-fabric-peer-docker build-cc copy-aries-feature-file fabric-cli
+bdd-test: clean populate-fixtures docker-thirdparty copy-aries-feature-file fabric-cli
 	@scripts/check_integration.sh
 
 .PHONY: copy-aries-feature-file
 copy-aries-feature-file: clean
 	@scripts/copy_aries_feature_file.sh
 
-.PHONY: build-cc
-build-cc: clean
-	@echo "Building cc"
-	@mkdir -p ./.build
-	@scripts/copycc.sh
-
 .PHONY: docker-thirdparty
 docker-thirdparty:
 	docker pull couchdb:2.2.0
 	docker pull hyperledger/fabric-orderer:$(ARCH)-2.0.0-alpha
-
-.PHONY: bdd-test-fabric-peer-docker
-bdd-test-fabric-peer-docker:
-	@docker build -f ./test/bdd/fixtures/images/fabric-peer/Dockerfile --no-cache -t fabric-peer:latest \
-	--build-arg FABRIC_PEER_EXT_IMAGE=$(FABRIC_PEER_EXT_IMAGE) \
-	--build-arg FABRIC_PEER_EXT_TAG=$(FABRIC_PEER_EXT_TAG) \
-	--build-arg GO_TAGS=$(GO_TAGS) \
-	--build-arg GOPROXY=$(GOPROXY) .
-
-.PHONY: bdd-test-fabric-peer
-bdd-test-fabric-peer:
-	@echo "Building bdd-test fabric-peer"
-	@mkdir -p ./.build/bin
-	@cd test/bdd/fixtures/fabric/peer/cmd && go build -o ../../../../../../.build/bin/fabric-peer github.com/trustbloc/aries-framework-go-ext/test/bdd/fixtures/fabric/peer/cmd
 
 .PHONY: crypto-gen
 crypto-gen:

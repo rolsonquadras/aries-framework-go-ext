@@ -17,7 +17,7 @@
             {
               "Name": "sdk",
               "Version": "1",
-              "Config": "file://./sdk-config-org1.yaml",
+              "Config": "file://./sdk-config.yaml",
               "Format": "yaml"
             }
           ]
@@ -46,7 +46,7 @@
             {
               "Name": "sdk",
               "Version": "1",
-              "Config": "file://./sdk-config-org1.yaml",
+              "Config": "file://./sdk-config.yaml",
               "Format": "yaml"
             }
           ]
