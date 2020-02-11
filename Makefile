@@ -23,7 +23,7 @@ FABRIC_PEER_EXT_VERSION ?= 0.1.1
 FABRIC_PEER_EXT_TAG     ?= $(ARCH)-$(FABRIC_PEER_EXT_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
-export ARIES_FRAMEWORK_VERSION = v0.1.1
+export ARIES_FRAMEWORK_VERSION = 2f18056cc63b1e7bcd8c8839e0d3734f89bac0ee
 export FABRIC_CLI_EXT_VERSION ?= 3fd66894726c1afcd904413dcfa3b4d586ea6c92
 
 
