@@ -17,11 +17,6 @@ FABRIC_TOOLS_IMAGE   ?= hyperledger/fabric-tools
 FABRIC_TOOLS_VERSION ?= 2.0.0-alpha
 FABRIC_TOOLS_TAG     ?= $(ARCH)-$(FABRIC_TOOLS_VERSION)
 
-# Fabric peer ext docker image (overridable)
-FABRIC_PEER_EXT_IMAGE   ?= trustbloc/fabric-peer
-FABRIC_PEER_EXT_VERSION ?= 0.1.1
-FABRIC_PEER_EXT_TAG     ?= $(ARCH)-$(FABRIC_PEER_EXT_VERSION)
-
 # This can be a commit hash or a tag (or any git ref)
 export ARIES_FRAMEWORK_VERSION = 2f18056cc63b1e7bcd8c8839e0d3734f89bac0ee
 export FABRIC_CLI_EXT_VERSION ?= 3fd66894726c1afcd904413dcfa3b4d586ea6c92
@@ -51,8 +46,8 @@ copy-aries-feature-file: clean
 
 .PHONY: docker-thirdparty
 docker-thirdparty:
-	docker pull couchdb:2.2.0
-	docker pull hyperledger/fabric-orderer:$(ARCH)-2.0.0-alpha
+	docker pull couchdb:2.3
+	docker pull hyperledger/fabric-orderer:$(ARCH)-2.0.0
 
 .PHONY: crypto-gen
 crypto-gen:
