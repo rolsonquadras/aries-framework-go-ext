@@ -18,9 +18,9 @@ FABRIC_TOOLS_VERSION ?= 2.0.0-alpha
 FABRIC_TOOLS_TAG     ?= $(ARCH)-$(FABRIC_TOOLS_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
-export ARIES_FRAMEWORK_VERSION = 0c0cf3e4871d45ac6a6bba3d7d4ceb9b4e7b104b
-export FABRIC_CLI_EXT_VERSION ?= 3fd66894726c1afcd904413dcfa3b4d586ea6c92
 
+export ARIES_FRAMEWORK_VERSION = 0c0cf3e4871d45ac6a6bba3d7d4ceb9b4e7b104b
+export FABRIC_CLI_EXT_VERSION ?= fce574c704389e1741dc9edb40456fd7877d42d5
 
 .PHONY: all
 all: checks bdd-test

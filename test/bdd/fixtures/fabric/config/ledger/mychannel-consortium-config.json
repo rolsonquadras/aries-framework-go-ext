@@ -6,12 +6,14 @@
       "Version": "1",
       "Config": "file://./did-sidetree-config.yaml",
       "Format": "yaml",
+      "Tags": ["sidetree"],
       "Components": [
         {
           "Name": "protocol",
           "Version": "1.0",
           "Config": "file://./did-sidetree-protocol-v1_0.json",
-          "Format": "json"
+          "Format": "json",
+          "Tags": ["sidetree"]
         }
       ]
     }
