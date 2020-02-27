@@ -19,7 +19,7 @@ FABRIC_TOOLS_TAG     ?= $(ARCH)-$(FABRIC_TOOLS_VERSION)
 
 # This can be a commit hash or a tag (or any git ref)
 
-export ARIES_FRAMEWORK_VERSION = b4ce3616634c4fdc7b4707fb04dcbfcd6c8baebf
+export ARIES_FRAMEWORK_VERSION = v0.1.2
 export FABRIC_CLI_EXT_VERSION ?= fce574c704389e1741dc9edb40456fd7877d42d5
 
 .PHONY: all
